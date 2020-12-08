@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+cd $(dirname "${BASH_SOURCE[0]}")
+
+exec docker-compose logs -f --tail=1 \
+    | sed 's| \[.*\] WARNING:.*said into stderr: ||g'

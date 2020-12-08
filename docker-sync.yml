@@ -1,0 +1,21 @@
+version: '2'
+
+options:
+  verbose: false
+
+syncs:
+  unison-sync:
+    # 需要挂载的目录
+    src: "/Users/zgx/Documents/central-cas"
+    # 同步策略 macOS 推荐 native_osx，Windows 配置为 unison
+    sync_strategy: native_osx
+    # 忽略的文件
+    sync_excludes: [
+      '.gitignore',
+      '.git/*',
+      '.DS_Store',
+      '.idea/*',
+      'docs/*',
+      'shell/*',
+      'www/storage/debugbar/*',
+    ]

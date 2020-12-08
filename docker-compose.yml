@@ -1,0 +1,92 @@
+version: "3.7"
+services:
+  nginx:
+    build:
+      context: ./images/nginx
+    restart: on-failure:5
+    container_name: zgx-nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - D:\work\dev-space\book:/data/web/book:ro
+    networks:
+      - default
+
+  mysql:
+    build:
+      context: ./images/mysql
+    ports:
+      - 3305:3306
+    container_name: zgx-mysql
+    volumes:
+      - D:\work\dev-space\mysql-data:/var/lib/mysql:cached
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: root
+    networks:
+      - default
+
+  redis:
+    build:
+      context: ./images/redis
+    image: redis:5.0
+    container_name: zgx-redis
+    volumes:
+      - D:\work\dev-space\redis_data:/data/
+    ports:
+      - 6379:6379
+    networks:
+      - default
+
+  rabbitmq:
+    build:
+      context: ./images/rabbitmq
+    container_name: zgx-rabbitmq  
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq:cached
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
+      RABBITMQ_DEFAULT_VHOST: default
+    networks:
+      - default
+
+  ## Pod: book
+  book:
+    image: zgx-php-base:7.3
+    container_name: zgx-book
+    volumes:
+      - D:\work\dev-space\book:/data/web/book:cached
+    networks:
+      - default
+    working_dir: /data/web/book
+
+  # 数据库管理
+  adminer:
+    image: adminer:latest
+    container_name: zgx-adminer
+    ports:
+      - 127.0.0.1:9081:8080
+    networks:
+      - default
+
+  base:
+    image: zgx-php-base:7.3
+    container_name: zgx-base
+    volumes:
+      - ${HOME}/.ssh:/root/.ssh:ro
+      - D:\work\dev-space\book:/data/web/book
+    networks:
+      - default
+    command: sleep infinity
+
+volumes:
+  mysql-data:
+  rabbitmq-data:
+
+networks:
+  default:

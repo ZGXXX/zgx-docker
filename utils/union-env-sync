@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cd $(dirname "${BASH_SOURCE[0]}")
+
+exec docker-compose exec shell71 php /data/init/script/env_sync.php all

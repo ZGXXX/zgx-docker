@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+cd $(dirname "${BASH_SOURCE[0]}")
+
+exec docker-compose exec mysql tail -f /var/log/mysql/query.log \
+    | egrep -v 'Close|Prepare|Quit|set names|set session|Connect'
