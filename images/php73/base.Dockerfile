@@ -5,7 +5,7 @@ COPY mirrors /etc/apt/sources.list
 
 RUN rm /etc/apt/sources.list.d -r \
     && apt-get update \
-    && apt-get install --allow-downgrades -y libssl1.1 zlib1g=1:1.2.8.dfsg-5 libmcrypt-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev libzip-dev -y \
+    && apt-get install --allow-downgrades --allow-remove-essential libssl1.1 zlib1g=1:1.2.8.dfsg-5 libmcrypt-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev libzip-dev libncurses5=6.0+20161126-1+deb9u2 libncursesw5=6.0+20161126-1+deb9u2 libtinfo5=6.0+20161126-1+deb9u2 procps curl net-tools git -y \
     && docker-php-ext-install bcmath pdo_mysql sockets zip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \

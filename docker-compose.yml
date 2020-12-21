@@ -4,7 +4,6 @@ services:
     build:
       context: ./images/nginx
     restart: on-failure:5
-    container_name: zgx-nginx
     ports:
       - 80:80
       - 443:443
@@ -18,7 +17,6 @@ services:
       context: ./images/mysql
     ports:
       - 3305:3306
-    container_name: zgx-mysql
     volumes:
       - D:\work\dev-space\mysql-data:/var/lib/mysql:cached
     environment:
@@ -31,7 +29,6 @@ services:
     build:
       context: ./images/redis
     image: redis:5.0
-    container_name: zgx-redis
     volumes:
       - D:\work\dev-space\redis_data:/data/
     ports:
@@ -42,7 +39,6 @@ services:
   rabbitmq:
     build:
       context: ./images/rabbitmq
-    container_name: zgx-rabbitmq  
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq:cached
     ports:
@@ -58,7 +54,6 @@ services:
   ## Pod: book
   book:
     image: zgx-php-base:7.3
-    container_name: zgx-book
     volumes:
       - D:\work\dev-space\book:/data/web/book:cached
     networks:
@@ -68,7 +63,6 @@ services:
   # 数据库管理
   adminer:
     image: adminer:latest
-    container_name: zgx-adminer
     ports:
       - 127.0.0.1:9081:8080
     networks:
@@ -76,7 +70,6 @@ services:
 
   base:
     image: zgx-php-base:7.3
-    container_name: zgx-base
     volumes:
       - ${HOME}/.ssh:/root/.ssh:ro
       - D:\work\dev-space\book:/data/web/book
